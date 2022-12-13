@@ -1,21 +1,25 @@
-import { useCaptureNome } from "./hooks/useCaptureNome";
-import { useCapturePostagens } from "./hooks/useCapturePostagens";
+import { useRequestData } from "./hooks/useRequestData";
 
 function App() {
-  const nomeUsuarios = useCaptureNome();
-  const postagens = useCapturePostagens();
+  //const nomeUsuarios = useCaptureNome()
+  //const postagens = useCapturePostagens()
+  const [nomeUsuarios, onLoading, errorUsers] = useRequestData('users');
+  const [postagens, onLoadingData] = useRequestData('comments');
 
   return (
     <>
       <p>Exercício 1</p>
-      {nomeUsuarios.map((usuario) => {
+      {errorUsers && <p>Error na requisição! Tente novamente!</p>}
+      {!onLoading ?
+      nomeUsuarios.map((usuario) => {
         return <p key={usuario.id}>{usuario.name}</p>;
-      })}
+      }): <p>Loading...</p>}
       <hr />
       <p>Exercício 2</p>
-      {postagens.map((post) => {
+      {!onLoadingData?
+      postagens.map((post) => {
         return <p key={post.id}>{post.body}</p>;
-      })}
+      }): <p>Loanding...</p>}
     </>
   );
 }
