@@ -1,32 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { BASE_URL } from "./constants/constants";
-import axios from "axios";
+import { useCaptureNome } from "./hooks/useCaptureNome";
+import { useCapturePostagens } from "./hooks/useCapturePostagens";
 
 function App() {
-  const [nomeUsuarios, setNomeUsuarios] = useState([]);
-  const [postagens, setPostagens] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(`${BASE_URL}users`)
-      .then((response) => {
-        setNomeUsuarios(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`${BASE_URL}comments`)
-      .then((response) => {
-        setPostagens(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
+  const nomeUsuarios = useCaptureNome();
+  const postagens = useCapturePostagens();
 
   return (
     <>
